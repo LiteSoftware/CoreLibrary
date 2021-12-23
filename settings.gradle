@@ -1,0 +1,6 @@
+rootProject.name = "CoreLibrary"
+
+include ":core"
+
+if (!System.env.JITPACK)
+    include ':sample'
