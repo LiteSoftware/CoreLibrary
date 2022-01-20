@@ -20,7 +20,6 @@ import com.javavirys.core.exception.BaseException
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
-import timber.log.Timber
 
 suspend fun <T> FlowCollector<Result<T>>.emitError(throwable: Throwable) =
     emit(throwable.asResult())
@@ -80,26 +79,25 @@ fun <T> Flow<Result<T>>.onEmptyResult(action: () -> Unit): Flow<Result<T>> {
 }
 
 fun <T> Flow<Result<T>>.toSingle() = flow<Result<T>> {
-    Timber.d("toSingle start")
     this@toSingle.onSuccess {
-        Timber.d("toSingle onSuccess = $it")
         this@flow.emitSuccess(it)
         throw EndOfFlowMarker()
     }.onError {
-        Timber.d("toSingle onError = $it")
         this@flow.emitError(it)
     }.catch { exception ->
-        Timber.d("toSingle.catch = $exception")
         if (exception !is EndOfFlowMarker) this@flow.emitError(exception)
     }.collect()
-
-    Timber.d("toSingle end")
 }
 
 fun <T> Flow<Result<List<T>>>.toIterative() = flow<Result<T>> {
     this@toIterative.onSuccess { it.forEach { item -> this@flow.emitSuccess(item) } }
         .onError { this@flow.emitError(it) }
         .catch { exception -> this@flow.emitError(exception) }
+        .collect()
+}
+
+fun <T> Flow<List<T>>.toIterable() = flow {
+    this@toIterable.onEach { list -> list.forEach { emit(it) } }
         .collect()
 }
 
