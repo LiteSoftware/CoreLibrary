@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Vitaliy Sychov
+ * Copyright 2023 Vitaliy Sychov
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,23 +14,18 @@
  *   limitations under the License.
  */
 
-package com.javavirys.core.presentation.adapter
+package com.javavirys.core.sample.adapter
 
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
-import com.javavirys.core.extension.inflate
+import com.javavirys.core.entity.User
+import com.javavirys.core.presentation.adapter.BaseViewHolder
+import com.javavirys.core.sample.R
+import com.javavirys.core.sample.databinding.ViewUserItemBinding
 
-abstract class BaseViewHolder<E, VB : ViewDataBinding>(
-    parent: ViewGroup,
-    @LayoutRes layoutId: Int
-) : RecyclerView.ViewHolder(parent.inflate(layoutId)) {
+class UserViewHolder(parent: ViewGroup) :
+    BaseViewHolder<User, ViewUserItemBinding>(parent, R.layout.view_user_item) {
 
-    protected val binding: VB? = DataBindingUtil.bind(itemView)
-
-    protected fun requireBinding() = binding!!
-
-    abstract fun bind(item: E)
+    override fun bind(item: User) = with(requireBinding()) {
+        name.text = item.name
+    }
 }
