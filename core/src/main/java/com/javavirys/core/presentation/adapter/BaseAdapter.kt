@@ -20,7 +20,7 @@ import android.annotation.SuppressLint
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BaseAdapter<E, VB : ViewDataBinding, VH : BaseViewHolder<E, VB>> :
+abstract class BaseAdapter<E, VH : BaseViewHolder<E, out ViewDataBinding>> :
     RecyclerView.Adapter<VH>() {
 
     val items = mutableListOf<E>()
