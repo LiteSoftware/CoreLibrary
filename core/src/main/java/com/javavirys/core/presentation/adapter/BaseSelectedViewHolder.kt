@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Vitaliy Sychov
+ * Copyright 2022 Vitaliy Sychov
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,15 +14,18 @@
  *   limitations under the License.
  */
 
-package com.javavirys.core.sample.adapter
+package com.javavirys.core.presentation.adapter
 
 import android.view.ViewGroup
-import com.javavirys.core.entity.User
-import com.javavirys.core.presentation.adapter.BaseSelectedAdapter
+import androidx.annotation.LayoutRes
+import androidx.databinding.ViewDataBinding
 
-class UserAdapter(
-    private val onClick: (User) -> Unit
-) : BaseSelectedAdapter<User, UserViewHolder>() {
+abstract class BaseSelectedViewHolder<E, VB : ViewDataBinding>(
+    parent: ViewGroup,
+    @LayoutRes layoutId: Int
+) : BaseViewHolder<E, VB>(parent, layoutId) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = UserViewHolder(parent, onClick)
+    open fun onSelectedItem(flag: Boolean) {
+        // none
+    }
 }
