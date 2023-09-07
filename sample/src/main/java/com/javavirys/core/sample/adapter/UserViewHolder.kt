@@ -17,15 +17,26 @@
 package com.javavirys.core.sample.adapter
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.javavirys.core.entity.User
-import com.javavirys.core.presentation.adapter.BaseViewHolder
+import com.javavirys.core.presentation.adapter.BaseSelectedViewHolder
 import com.javavirys.core.sample.R
 import com.javavirys.core.sample.databinding.ViewUserItemBinding
 
-class UserViewHolder(parent: ViewGroup) :
-    BaseViewHolder<User, ViewUserItemBinding>(parent, R.layout.view_user_item) {
+class UserViewHolder(
+    parent: ViewGroup,
+    private val onClick: (User) -> Unit
+) : BaseSelectedViewHolder<User, ViewUserItemBinding>(parent, R.layout.view_user_item) {
 
-    override fun bind(item: User) = with(requireBinding()) {
+    override fun bind(item: User) = with(binding) {
         name.text = item.name
+        root.setOnClickListener {
+            onClick(item)
+        }
+        checked.isVisible = false
+    }
+
+    override fun onSelectedItem(flag: Boolean) {
+        binding.checked.isVisible = flag
     }
 }

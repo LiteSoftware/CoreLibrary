@@ -27,13 +27,26 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
+        var adapter: UserAdapter? = null
+
         with(findViewById<RecyclerView>(R.id.recyclerView)) {
-            adapter = UserAdapter().also {
+            adapter = UserAdapter {
+                adapter?.selectItem(it)
+            }.also {
                 it.addItem(User("Nick"))
                 it.addItem(User("Slava"))
                 it.addItem(User("Lee"))
                 it.addItem(User("Tony"))
+                it.addItem(User("Tony1"))
+                it.addItem(User("Tony2"))
+                it.addItem(User("Tony3"))
+                it.addItem(User("Tony4"))
+                it.addItem(User("Tony5"))
+                it.addItem(User("Tony6"))
+                it.addItem(User("Tony7"))
+                it.addItem(User("Tony8"))
             }
+            this.adapter = adapter
         }
     }
 }

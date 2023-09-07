@@ -23,14 +23,15 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.javavirys.core.extension.inflate
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class BaseViewHolder<E, VB : ViewDataBinding>(
     parent: ViewGroup,
     @LayoutRes layoutId: Int
 ) : RecyclerView.ViewHolder(parent.inflate(layoutId)) {
 
-    protected val binding: VB? = DataBindingUtil.bind(itemView)
+    protected val bindingMaybeNullable: VB? by lazy { DataBindingUtil.bind(itemView) }
 
-    protected fun requireBinding() = binding!!
+    protected val binding: VB by lazy { bindingMaybeNullable!! }
 
     abstract fun bind(item: E)
 }
